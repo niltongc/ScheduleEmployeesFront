@@ -1,0 +1,63 @@
+<div class="container">
+    <div>
+        <button class="btn btn-primary m-2" (click)="createIn()">Login</button>
+
+
+        <button class="btn btn-secondary m-2" (click)="createOut()">Logout</button>
+
+        <!-- <label class="mx-5">
+        <input type="radio" name="isLogin" value="Login" [(ngModel)]="selectedGender" />
+        Login
+    </label>
+    <label>
+        <input type="radio" name="isLogin" value="Logout" [(ngModel)]="selectedGender" />
+        Logout
+    </label>
+
+    <div *ngIf="!selectedGender">
+        <p>Please select a gender.</p>
+    </div> -->
+
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <div>
+                    <th class="px-5">Hour</th>
+
+                    <th>Status</th>
+
+                </div>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let sch of schedules">
+                <!-- <td>{{sch.dateCheck | date:"dd/MM/yyy"}}</td> -->
+
+
+                <td>{{sch.timeDay}}</td>
+                <div *ngFor="let s of sch.scheduleDtoFormated">
+                    <td class="px-5">{{s.dateCheck | date:"HH:mm"}}</td>
+                    <td>{{s.isLogin ? 'Login' : 'Logout'}}</td>
+                </div>
+
+            </tr>
+            <!-- <tr>
+                <td>2023-05-11</td>
+                <td>8:00 AM</td>
+                <td>4:00 PM</td>
+            </tr>
+            <tr>
+                <td>2023-05-12</td>
+                <td>7:30 AM</td>
+                <td>3:30 PM</td>
+            </tr> -->
+            <!-- Add more rows as needed -->
+        </tbody>
+
+    </table>
+
+</div>
