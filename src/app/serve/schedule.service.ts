@@ -18,7 +18,17 @@ export class ScheduleService {
   }
 
   addSchedule(addSchedule: AddSchedule): Observable<AddSchedule>{
-    // addSchedule.id = 0
+    
     return this.http.post<AddSchedule>('https://localhost:7109/api/Schedule', addSchedule)
   }
+
+  getScheduleById(id: string): Observable<AddSchedule>{
+    return this.http.get<AddSchedule>('https://localhost:7109/api/Schedule/day/'+id)
+  }
+
+  updateSchedule(id: string, updateScheduleRequest: AddSchedule): Observable<AddSchedule>{
+    return this.http.put<AddSchedule>('https://localhost:7109/api/Schedule/'+id, updateScheduleRequest)
+  }
+
+  
 }

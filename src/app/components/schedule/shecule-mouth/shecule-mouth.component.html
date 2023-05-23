@@ -1,22 +1,6 @@
 <div class="container">
     <div>
-        <button class="btn btn-primary m-2" (click)="createIn()">Login</button>
-
-
-        <button class="btn btn-secondary m-2" (click)="createOut()">Logout</button>
-
-        <!-- <label class="mx-5">
-        <input type="radio" name="isLogin" value="Login" [(ngModel)]="selectedGender" />
-        Login
-    </label>
-    <label>
-        <input type="radio" name="isLogin" value="Logout" [(ngModel)]="selectedGender" />
-        Logout
-    </label>
-
-    <div *ngIf="!selectedGender">
-        <p>Please select a gender.</p>
-    </div> -->
+        <button class="btn btn-primary m-2" (click)="createIn()">Check</button>
 
     </div>
 
@@ -27,37 +11,62 @@
                 <div>
                     <th class="px-5">Hour</th>
 
-                    <th>Status</th>
-
+                    <th class="px-5">Edit</th>
                 </div>
 
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let sch of schedules">
-                <!-- <td>{{sch.dateCheck | date:"dd/MM/yyy"}}</td> -->
-
-
-                <td>{{sch.timeDay}}</td>
-                <div *ngFor="let s of sch.scheduleDtoFormated">
-                    <td class="px-5">{{s.dateCheck | date:"HH:mm"}}</td>
-                    <td>{{s.isLogin ? 'Login' : 'Logout'}}</td>
+            
+                <td>{{sch.date | date:"dd"}}</td>
+                <div class="d-flex flex-row" *ngFor="let s of sch.scheduleDtoFormated; let i = index">
+                    <div *ngIf="i % 2 === 0">
+                        <div *ngIf="i+1 < sch.scheduleDtoFormated.length">
+                            <p class="px-5">[{{sch.scheduleDtoFormated[i].dateCheck | date:"HH:mm"}}]-[{{sch.scheduleDtoFormated[i+1].dateCheck | date:"HH:mm"}}]</p>
+                        </div>
+                    </div>
                 </div>
-
+                <td class="px-5">
+                    <a [routerLink]="['/schedule','edit',sch.scheduleDtoFormated.id]"></a>
+                    <button (click)="open(content, sch.scheduleDtoFormated)" class="btn btn-warning">Edit</button>
+                    
+            
+                </td>
+            
             </tr>
-            <!-- <tr>
-                <td>2023-05-11</td>
-                <td>8:00 AM</td>
-                <td>4:00 PM</td>
-            </tr>
-            <tr>
-                <td>2023-05-12</td>
-                <td>7:30 AM</td>
-                <td>3:30 PM</td>
-            </tr> -->
-            <!-- Add more rows as needed -->
         </tbody>
 
     </table>
 
 </div>
+
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Date update</h4>
+        <!-- botao de fechar -->
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+
+    <div *ngFor="let item of selectedDate; let i = index" class="d-flex flex-row">
+        <div *ngIf="i % 2 === 0 && i+1 < selectedDate.length" class="row">
+          <div class="col">
+            <label for="hourIn">Hour In</label>
+            <input name="hourIn" [ngModel]="selectedDate[i].dateCheck | date:'HH:mm'" class="form-control" />
+          </div>
+          <div class="col">
+            <label for="hourOut">Hour In</label>
+            <input name="hourOut" [ngModel]="selectedDate[i+1].dateCheck | date:'HH:mm'" class="form-control" />
+          </div>
+        </div>
+    </div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+</ng-template>
+
+<hr />
+
+<pre>{{ closeResult }}</pre>

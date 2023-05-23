@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddSchedule } from 'src/app/models/addSchedule.models';
 import { Schedule } from 'src/app/models/schedule.models';
 import { ScheduleService } from 'src/app/serve/schedule.service';
+
 
 @Component({
   selector: 'app-shecule-mouth',
@@ -12,17 +14,19 @@ import { ScheduleService } from 'src/app/serve/schedule.service';
 export class SheculeMouthComponent {
 
   schedules: Schedule[] = []
-  isLogin = true;
-  selectedGender: boolean = true;
+
+  closeResult = '';
+  selectedDate: any = [];
+
+  
 
   addScheduleRequest: AddSchedule = {
     id: 0,
     dateCheck: Date.UTC,
-    isLogin: true,
     userId: 1
   }
 
-  constructor(private scheduleService: ScheduleService, private router: Router){}
+  constructor(private scheduleService: ScheduleService, private router: Router, private modalService: NgbModal){}
 
   ngOnInit():void{
     this.scheduleService.getSchedule()
@@ -46,21 +50,41 @@ export class SheculeMouthComponent {
       next: (schedule) => {
         this.router.navigate(['schedule'])
         console.log('certo')
+        window.location.reload();
       }
     })
   }
 
-  createOut(){
-    this.addScheduleRequest.isLogin = false;
-    this.scheduleService.addSchedule(this.addScheduleRequest)
-    .subscribe({
-      next: (schedule) => {
-        console.log(this.addScheduleRequest)
-        this.router.navigate(['schedule'])
-        console.log('certo')
-      }
-    })
-  }
+
+  open(content: any, date: any) {
+    
+    this.selectedDate = date;
+    
+    console.log(this.selectedDate)
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+			(result) => {
+				this.closeResult = `Closed with: ${result}`;
+        
+        
+			},
+			(reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        
+			},
+		);
+	}
+
+	private getDismissReason(reason: any): string {
+		if (reason === ModalDismissReasons.ESC) {
+			return 'by pressing ESC';
+		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+			return 'by clicking on a backdrop';
+		} else {
+			return `with: ${reason}`;
+		}
+	}
+
+ 
 
   
 }

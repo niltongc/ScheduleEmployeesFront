@@ -1,7 +1,7 @@
 export interface Schedule {
-    timeDay: number;
+    
+    date: string;
     dateCheck: string;
-    isLogin: Boolean;
     scheduleDtoFormated:any;
 
 }
