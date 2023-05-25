@@ -10,24 +10,25 @@ import { AddSchedule } from '../models/addSchedule.models';
 export class ScheduleService {
 
   apiUrl: any = 'https://localhost:7109/api/Schedule'
+  
 
   constructor(private http: HttpClient) { }
 
-  getSchedule(): Observable<Schedule[]>{
-    return this.http.get<Schedule[]>(this.apiUrl+'/all/1?mouth=5');
+  getSchedule(userId: string, mouth: string ): Observable<Schedule[]>{
+    return this.http.get<Schedule[]>(this.apiUrl+`/all/${userId}?mouth=${mouth}`);
   }
 
   addSchedule(addSchedule: AddSchedule): Observable<AddSchedule>{
     
-    return this.http.post<AddSchedule>('https://localhost:7109/api/Schedule', addSchedule)
+    return this.http.post<AddSchedule>(this.apiUrl, addSchedule)
   }
 
   getScheduleById(id: string): Observable<AddSchedule>{
-    return this.http.get<AddSchedule>('https://localhost:7109/api/Schedule/day/'+id)
+    return this.http.get<AddSchedule>(this.apiUrl+"/day/"+id)
   }
 
   updateSchedule(id: string, updateScheduleRequest: AddSchedule): Observable<AddSchedule>{
-    return this.http.put<AddSchedule>('https://localhost:7109/api/Schedule/'+id, updateScheduleRequest)
+    return this.http.put<AddSchedule>(this.apiUrl+id, updateScheduleRequest)
   }
 
   

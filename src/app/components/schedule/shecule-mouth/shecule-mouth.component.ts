@@ -18,7 +18,8 @@ export class SheculeMouthComponent {
   closeResult = '';
   selectedDate: any = [];
 
-  
+  userId = "1";
+  mouth = "5";
 
   addScheduleRequest: AddSchedule = {
     id: 0,
@@ -29,7 +30,7 @@ export class SheculeMouthComponent {
   constructor(private scheduleService: ScheduleService, private router: Router, private modalService: NgbModal){}
 
   ngOnInit():void{
-    this.scheduleService.getSchedule()
+    this.scheduleService.getSchedule(this.userId, this.mouth)
     .subscribe({
       next: (schedules) => {
         console.log(schedules)
