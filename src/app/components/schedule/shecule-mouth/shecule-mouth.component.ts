@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddSchedule } from 'src/app/models/addSchedule.models';
@@ -13,49 +13,62 @@ import { ScheduleService } from 'src/app/serve/schedule.service';
 })
 export class SheculeMouthComponent {
 
+  loading = true;
+
+  userResponse: any;
+
   schedules: Schedule[] = []
 
   closeResult = '';
   selectedDate: any = [];
 
-  userId = "1";
-  mouth = "5";
-
   addScheduleRequest: AddSchedule = {
     id: 0,
     dateCheck: Date.UTC,
-    userId: 1
+    userId: 0
   }
 
   constructor(private scheduleService: ScheduleService, private router: Router, private modalService: NgbModal){}
 
-  ngOnInit():void{
-    this.scheduleService.getSchedule(this.userId, this.mouth)
-    .subscribe({
-      next: (schedules) => {
-        console.log(schedules)
-        console.log(typeof(schedules))
-        this.schedules = schedules;
+  ngOnInit(): void {
+    
+  }
 
-      },
-      error: (response) => {
-        console.log(response)
-        
-      }
-    })
+  onGetUserEvent(userResponse: any) { 
+    this.userResponse = userResponse;
+    this.login(`${userResponse.id}`);
+    this.loading = false;
+  }
+
+  login(userId: any){
+    
+    this.scheduleService.getSchedule(userId)
+      .subscribe({
+        next: (schedules) => {
+          console.log(schedules)
+          this.schedules = schedules;
+        },
+        error: (response) => {
+          console.log(response)
+        }
+      })
   }
 
   createIn(){
+    
+    this.addScheduleRequest.userId = this.userResponse.id;
+    console.log(this.userResponse)
+    console.log(this.addScheduleRequest)
     this.scheduleService.addSchedule(this.addScheduleRequest)
     .subscribe({
-      next: (schedule) => {
-        this.router.navigate(['schedule'])
+      next: (schedule: any) => {
+        // this.router.navigate(['schedule'])
         console.log('certo')
-        window.location.reload();
+        console.log(this.addScheduleRequest)
+        this.login(this.addScheduleRequest.userId)
       }
     })
   }
-
 
   open(content: any, date: any) {
     

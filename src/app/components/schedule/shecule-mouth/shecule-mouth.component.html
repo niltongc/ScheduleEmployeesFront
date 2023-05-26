@@ -1,4 +1,9 @@
-<div class="container">
+<div *ngIf="loading">
+    
+    <app-login (loginEvent)="onGetUserEvent($event)"></app-login>
+</div>
+
+<div *ngIf="!loading" class="container">
     <div>
         <button class="btn btn-primary m-2" (click)="createIn()">Check</button>
 
@@ -11,7 +16,7 @@
                 <div>
                     <th class="px-5">Hour</th>
 
-                    <th class="px-5">Edit</th>
+                    <th class="px-5"></th>
                 </div>
 
             </tr>
