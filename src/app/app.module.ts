@@ -7,14 +7,12 @@ import { AppComponent } from './app.component';
 import { SheculeMouthComponent } from './components/schedule/shecule-mouth/shecule-mouth.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { EditScheduleComponent } from './components/schedule/edit-schedule/edit-schedule.component';
 import { LoginComponent } from './components/auth/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SheculeMouthComponent,
-    EditScheduleComponent,
     LoginComponent
   ],
   imports: [

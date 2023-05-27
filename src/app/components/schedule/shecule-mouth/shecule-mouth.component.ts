@@ -62,7 +62,6 @@ export class SheculeMouthComponent {
     this.scheduleService.addSchedule(this.addScheduleRequest)
     .subscribe({
       next: (schedule: any) => {
-        // this.router.navigate(['schedule'])
         console.log('certo')
         console.log(this.addScheduleRequest)
         this.login(this.addScheduleRequest.userId)

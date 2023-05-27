@@ -9,8 +9,8 @@ import { AddSchedule } from '../models/addSchedule.models';
 })
 export class ScheduleService {
 
-  apiUrlSchedule: string = 'https://localhost:7109/api/Schedule/'
-  apiUrlUser: string = 'https://localhost:7109/api/User/'
+  apiUrlSchedule: string = 'http://localhost:5127/api/Schedule/'
+  apiUrlUser: string = 'http://localhost:5127/api/User/'
   
 
   constructor(private http: HttpClient) { }
@@ -18,13 +18,15 @@ export class ScheduleService {
   // getSchedule(userId: string, mouth: string ): Observable<Schedule[]>{
   //   return this.http.get<Schedule[]>(this.apiUrlSchedule+`/all/${userId}?mouth=${mouth}`);
   // }
+
+  //schedule url
   getSchedule(userId: string): Observable<Schedule[]>{
     return this.http.get<Schedule[]>(this.apiUrlSchedule+`all/${userId}`);
   }
 
   addSchedule(addSchedule: AddSchedule): Observable<AddSchedule>{
     
-    return this.http.post<AddSchedule>('https://localhost:7109/api/Schedule', addSchedule)
+    return this.http.post<AddSchedule>('http://localhost:5127/api/Schedule', addSchedule)
   }
 
   getScheduleById(id: string): Observable<AddSchedule>{
@@ -35,6 +37,8 @@ export class ScheduleService {
     return this.http.put<AddSchedule>(this.apiUrlSchedule+id, updateScheduleRequest)
   }
 
+
+  //user urls:
   getUser(email:string): Observable<any>{
     return this.http.get<any>(this.apiUrlUser+email)
   }
